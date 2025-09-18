@@ -120,7 +120,7 @@ extension NatsClient: NatsConnection {
         let bootstrap = ClientBootstrap(group: self.group)
             .channelOption(ChannelOptions.socket(SocketOptionLevel(SOL_SOCKET), SO_REUSEADDR), value: 1)
             .channelInitializer { channel in
-                channel.pipeline.add(handler: self)
+                channel.pipeline.addHandler(self)
             }
 
         var isInformed = false

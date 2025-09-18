@@ -60,9 +60,10 @@ extension NatsClient {
 
         guard self.state == .connected else { return }
 
-        var buffer = self.channel?.allocator.buffer(capacity: message.utf8.count)
-        buffer?.write(string: message)
-        let _ = self.channel?.writeAndFlush(buffer)
+        guard let channel = self.channel else { return }
+        var buffer = channel.allocator.buffer(capacity: message.utf8.count)
+        buffer.writeString(message)
+        channel.writeAndFlush(NIOAny(buffer), promise: nil)
 
     }
 
